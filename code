@@ -23,4 +23,17 @@ welcome=Bienvenue dans notre pays
 message1=Nous sommes heureux de vous accueillir dans notre pays
 message2=Profitez de votre séjour!
 regards=Je vous remercie
-
+---------main------------
+System.out.println("Date:" + LocalDate.now());
+		System.out.println("Hello Guest,");
+		System.out.println("Welcome to our country.");
+		System.out.println("We are happy to host you in our country.");
+		System.out.println("Enjoy your stay.");
+		System.out.println("Thank you!");
+		System.out.println("***************************");
+		System.out.println("Select your language ");
+		System.out.println("1: English");
+		System.out.println("2: French");
+		System.out.println("3: Chinese");
+		System.out.println("4: Hindi");
+		System.out.println("5: Exit");
