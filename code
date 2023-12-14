@@ -1,78 +1,26 @@
-package org;
+hello=Hello Guest
+welcome=Welcome to our country
+message1=We are happy to host you in our country
+message2=Enjoy your stay!
+regards=Thank you
 
-public class Painter {
-	public String name;
-	public String paintingStyle;
-	public String theme;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPaintingStyle() {
-		return paintingStyle;
-	}
-	public void setPaintingStyle(String paintingStyle) {
-		this.paintingStyle = paintingStyle;
-	}
-	public String getTheme() {
-		return theme;
-	}
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-	public Painter(String name, String paintingStyle, String theme) {
-		super();
-		this.name = name;
-		this.paintingStyle = paintingStyle;
-		this.theme = theme;
-	}	
-}
+---Hindi---
+hello=\u0928\u092E\u0938\u094D\u0915\u093E\u0930 \u0905\u0924\u093F\u0925\u093F
+welcome=\u0939\u092E\u093E\u0930\u0947 \u0926\u0947\u0936 \u092E\u0947\u0902 \u0906\u092A\u0915\u093E \u0938\u094D\u0935\u093E\u0917\u0924 \u0939\u0948
+message1=\u0939\u092E \u0906\u092A\u0915\u094B \u0939\u092E\u093E\u0930\u0947 \u0926\u0947\u0936 \u092E\u0947\u0902 \u0939\u094B\u0938\u094D\u091F \u0915\u0930\u0915\u0947 \u0916\u0941\u0936 \u0939\u0948\u0902
+message2=\u092F\u0939\u093E\u0902 \u0930\u0939\u0928\u0947 \u0915\u093E \u0906\u0928\u0902\u0926!
+regards=\u0927\u0928\u094D\u092F\u0935\u093E\u0926
 
--------------------------
-package test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import org.Painter;
-public class Test {
-	public static void main(String[] args) {
-		List <Painter> painterList = new ArrayList <Painter> ();
-		Random random=new Random();
-		int size = 100;
-        String [] names = {"John", "Rakeeb", "Jane", "David", "Rahul", "Peter", "Leo", "Zack", "Anita", "Samaira"};
-        String [] style = {"oil", "charcole", "pencil", "colored", "ink", "glass", "sand", "spray", "digital", "watrecolor"};
-        String [] themes = {"Environment", "Industry", "Social", "Invention", "Adversity", "Humans", "Progress"};
-        
-        for (int i=0; i<100000; i++){
-        	int randomName = random.nextInt(names.length-1);        	
-        	int randomStyle = random.nextInt(style.length-1);        	
-        	int randomTheme = random.nextInt(themes.length-1);        	
-        	painterList.add(new Painter(names[randomName], style[randomStyle], themes[randomTheme]));
-        	}
-            
-        long t1 = System.currentTimeMillis(), count1;
-        
-        count1 = painterList.stream().
-        filter(x-> (x.getName().equals("John") || x.getPaintingStyle().equals("charcole")))
-        .filter(x-> x.getTheme().equals("Invention"))
-        .filter(x-> x.getName().startsWith("J"))
-        .count();
-        long t2 = System.currentTimeMillis();
-        System.out.println("Count = " + count1 + " sequential Stream Takes " + (t2-t1) + " ms\n");
-        
-        long t3 = System.currentTimeMillis(), count2;
-        count2 = painterList.parallelStream().
-        filter(x-> (x.getName().equals("John") || x.getPaintingStyle().equals("charcole")))
-        .filter(x-> x.getTheme().equals("Invention"))
-        .filter(x-> x.getName().startsWith("J"))
-        .count();
-        long t4 = System.currentTimeMillis();
-        System.out.println("Count = " + count2 + " Parallel Stream Takes " + (t4-t3) + " ms\n");
-        }
-}
-
+---chinese---
+hello=\u4F60\u597D\u5BA2\u4EBA
+welcome=\u6B22\u8FCE\u6765\u5230\u6211\u4EEC\u7684\u56FD\u5BB6
+message1=\u6211\u4EEC\u5F88\u9AD8\u5174\u63A5\u5F85\u60A8\u5728\u6211\u4EEC\u7684\u56FD\u5BB6
+message2=\u5165\u4F4F\u6109\u5FEB!
+regards=\u8C22\u8C22
+--------France--
+hello=Bonjour Invité
+welcome=Bienvenue dans notre pays
+message1=Nous sommes heureux de vous accueillir dans notre pays
+message2=Profitez de votre séjour!
+regards=Je vous remercie
 
