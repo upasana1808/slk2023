@@ -1,0 +1,29 @@
+ public int prodId;
+    public String name;
+    public float price;
+    public int quantity;
+    public String brand;
+    public float deliveryCharges;
+    public Product(int prodId, String name, float price, int quantity, String brand, float deliveryCharges) {
+        super();
+        this.prodId = prodId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.brand = brand;
+        this.deliveryCharges = deliveryCharges;
+    }
+
+
+
+List<Product> prodList=new ArrayList();
+        prodList.add(new Product(1001, "TV", 95000, 1, "Apple", 0));
+        prodList.add(new Product(1002, "Tripod", 7000, 2, "Digitech", 100));
+        prodList.add(new Product(1003, "CCTV Camera", 4500, 5, "Mi", 150));
+        prodList.add(new Product(1004, "Mobile", 50000, 1, "Samsung", 0));
+        prodList.add(new Product(1005, "Monitor", 16000, 4, "Dell", 100));
+        prodList.add(new Product(1006, "Mouse", 1200, 15, "logitech", 0));
+        prodList.add(new Product(1007, "Camera", 16000, 4, "Dell", 100));
+        prodList.add(new Product(1008, "Mouse", 1200, 15, "logitech", 0));
+        prodList.add(new Product(1009, "Camera", 16000, 4, "Dell", 100));
+        //Find out names of all the product with zero delivery charges
