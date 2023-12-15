@@ -1,39 +1,40 @@
-hello=Hello Guest
-welcome=Welcome to our country
-message1=We are happy to host you in our country
-message2=Enjoy your stay!
-regards=Thank you
+public static void main(String[] args) {
+		ExecutorService eServe1 = Executors.newFixedThreadPool(10);		//ready to accept tasks
+		//----------------Task 1-----------------------
+		//Results are stored in Future object
+		Future futu1 = eServe1.submit(() -> {
+			System.out.println("I make a triangle, I am a runnable");
+			for (int i = 1; i <= 4; i++) {
+				for (int j = 4; j >= i; j--) {
+					System.out.print(" ");
+				}
+				for (int j = 1; j <= i; j++) {
+					System.out.print("* ");
+				} 
+				System.out.println();
+			}
+			System.out.println("Runnable ending....");
+		});
+		
+		//----------------Task 2-----------------------
+		Future<Integer> futu2 = eServe1.submit(() -> {
+			System.out.println("I printed a summation, I am callable ");
+			return 100 + 100 + 500 + 23;
+		});			
+		try {
+			Integer result = futu2.get(5, TimeUnit.SECONDS);
+			System.out.println("The summation is  " + result);
+			SomeFunnyTask("having fun!");				
+		} catch (Exception e) {
+			e.printStackTrace();
 
----Hindi---
-hello=\u0928\u092E\u0938\u094D\u0915\u093E\u0930 \u0905\u0924\u093F\u0925\u093F
-welcome=\u0939\u092E\u093E\u0930\u0947 \u0926\u0947\u0936 \u092E\u0947\u0902 \u0906\u092A\u0915\u093E \u0938\u094D\u0935\u093E\u0917\u0924 \u0939\u0948
-message1=\u0939\u092E \u0906\u092A\u0915\u094B \u0939\u092E\u093E\u0930\u0947 \u0926\u0947\u0936 \u092E\u0947\u0902 \u0939\u094B\u0938\u094D\u091F \u0915\u0930\u0915\u0947 \u0916\u0941\u0936 \u0939\u0948\u0902
-message2=\u092F\u0939\u093E\u0902 \u0930\u0939\u0928\u0947 \u0915\u093E \u0906\u0928\u0902\u0926!
-regards=\u0927\u0928\u094D\u092F\u0935\u093E\u0926
+		} finally {
+			eServe1.shutdown();
+		} 
+		
+		
+	} 
 
----chinese---
-hello=\u4F60\u597D\u5BA2\u4EBA
-welcome=\u6B22\u8FCE\u6765\u5230\u6211\u4EEC\u7684\u56FD\u5BB6
-message1=\u6211\u4EEC\u5F88\u9AD8\u5174\u63A5\u5F85\u60A8\u5728\u6211\u4EEC\u7684\u56FD\u5BB6
-message2=\u5165\u4F4F\u6109\u5FEB!
-regards=\u8C22\u8C22
---------France--
-hello=Bonjour Invité
-welcome=Bienvenue dans notre pays
-message1=Nous sommes heureux de vous accueillir dans notre pays
-message2=Profitez de votre séjour!
-regards=Je vous remercie
----------main------------
-System.out.println("Date:" + LocalDate.now());
-		System.out.println("Hello Guest,");
-		System.out.println("Welcome to our country.");
-		System.out.println("We are happy to host you in our country.");
-		System.out.println("Enjoy your stay.");
-		System.out.println("Thank you!");
-		System.out.println("***************************");
-		System.out.println("Select your language ");
-		System.out.println("1: English");
-		System.out.println("2: French");
-		System.out.println("3: Chinese");
-		System.out.println("4: Hindi");
-		System.out.println("5: Exit");
+	private static void SomeFunnyTask(String funnyname) {
+		System.out.println("I'm not from ExecutorService " + funnyname);
+	}
