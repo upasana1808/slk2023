@@ -1,6 +1,35 @@
-mysqld
-         --defaults-file="C:\\ProgramData\\MySQL\\MySQL Server 5.7\\my.ini"
-         --init-file=C:\\mysql-init.txt
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class Main {
+    public static void main(String[] args) {
+        String url="jdbc:mysql://localhost:3306/slkbank";
+        String username="root";
+        String password="1234";
+        try{
+            Connection con= DriverManager.getConnection(url,username,password);
+            System.out.println("Connection Successful");
+            Statement stmt= con.createStatement();
+            String query="select username,password,id from customer";
+            String un="uppu";
+            String pw="1234";
+            ResultSet rs=stmt.executeQuery(query);
+            while(rs.next())
+            {
+                String uname=rs.getString(1);
+                String pwd =rs.getString(2);
+                if(uname.equals(un) && pwd.equals(pw)){
+
+                }
 
 
-https://dev.mysql.com/downloads/mysql/
+            }
+        }catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+    }
+}
