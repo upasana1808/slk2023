@@ -1,3 +1,6 @@
 mysqld
          --defaults-file="C:\\ProgramData\\MySQL\\MySQL Server 5.7\\my.ini"
          --init-file=C:\\mysql-init.txt
+
+
+https://dev.mysql.com/downloads/mysql/
