@@ -6,3 +6,11 @@ spring.datasource.password = 1234
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 Hibernate ddl auto (create, create-drop, validate, update)
 #spring.jpa.hibernate.ddl-auto = update 
+
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.28</version>
+</dependency>
+
