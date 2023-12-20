@@ -8,3 +8,5 @@
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
     </dependency>
+
+jdbc:h2:mem:testdb
