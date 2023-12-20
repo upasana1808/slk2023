@@ -1,22 +1,12 @@
-private Date timestamp;
-	private String message;
-	private String details;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-	public ErrorDetails(Date timestamp, String message, String details) {
-		super();
-		this.timestamp = timestamp;
-		this.message = message;
-		this.details = details;
-	}
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends Exception{
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
+	private static final long serialVersionUID = 1L;
 
-	public String getMessage() {
-		return message;
-	}
-
-	public String getDetails() {
-		return details;
-	}
+	public ResourceNotFoundException(String message){
+    	super(message);
+    }
+}
