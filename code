@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.oneToManyBidirectional.Model.Band;
 @Repository
 public interface BandRepo extends JpaRepository<Band, Long>{
-	
+}	
 	
 -----MusicialRepo-----
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.oneToManyBidirectional.Model.Musician;
 @Repository
-public interface MusicianRepo extends JpaRepository<Musician, Long>{
+public interface MusicianRepo extends JpaRepository<Musician, Long>{}
 	
 
 --BandController----------
