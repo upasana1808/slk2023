@@ -1,3 +1,13 @@
+
+user.oauth.clientId=javadevjournal
+user.oauth.clientSecret=1234$#@!
+user.oauth.redirectUris=http://localhost:8081/login
+user.oauth.user.username=javadevjournal
+user.oauth.user.password=javadevjournal
+user.oauth.accessTokenValidity=300
+user.oauth.refreshTokenValidity=240000
+
+-----------------
 https://www.javadevjournal.com/spring-boot/spring-boot-oauth2/
 -------------
  <dependency>
