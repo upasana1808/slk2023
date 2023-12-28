@@ -1,3 +1,9 @@
 private Long id;
     private String name;
     private BigDecimal price;
+
+
+private Long ID;
+    private String name;
+    private Integer age;
+    private LocalDateTime createdDate;
