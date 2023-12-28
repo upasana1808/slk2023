@@ -1,3 +1,7 @@
+public static void main(String[] args) {
+		SpringApplication.run(JTemplateAppApplication.class, args);
+	}
+---------------
 
 	private static final Logger log = LoggerFactory.getLogger(JTemplateAppApplication.class);
 
