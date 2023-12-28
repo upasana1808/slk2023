@@ -1,233 +1,33 @@
-public static void main(String[] args) {
-		SpringApplication.run(JTemplateAppApplication.class, args);
-	}
----------------
-
-	private static final Logger log = LoggerFactory.getLogger(JTemplateAppApplication.class);
-
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-
-	@Autowired
-	CustomerRepository customerRepository;
-	@Override
-	public void run(String... args) throws Exception {
-		startCustomerApp();
-	}
-	void startCustomerApp() {
-
-		jdbcTemplate.execute("DROP TABLE customer IF EXISTS");
-		jdbcTemplate.execute("CREATE TABLE customer(" +
-				"id SERIAL, name VARCHAR(255), age NUMERIC(2), created_date timestamp)");
-
-		List<Customer> list = Arrays.asList(
-				new Customer("Customer A", 19),
-				new Customer("Customer B", 20),
-				new Customer("Customer C", 21),
-				new Customer("Customer D", 22)
-		);
-
-		list.forEach(x -> {
-			log.info("Saving...{}", x.getName());
-			customerRepository.save(x);
-		});
-
-		log.info("[FIND_BY_ID]");
-		log.info("{}", customerRepository.findByCustomerId(1L));
-		log.info("{}", customerRepository.findByCustomerId2(2L));
-		log.info("{}", customerRepository.findByCustomerId3(3L));
-
-		log.info("[FIND_ALL]");
-		log.info("{}", customerRepository.findAll());
-		log.info("{}", customerRepository.findAll2());
-		log.info("{}", customerRepository.findAll3());
-		log.info("{}", customerRepository.findAll4());
-
-		log.info("[FIND_NAME_BY_ID]");
-		log.info("{}", customerRepository.findCustomerNameById(4L));
-
-		log.info("[COUNT]");
-		log.info("{}", customerRepository.count());
-
-	}
------------------------------
-<dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-        </dependency>
-------------------
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-@Repository
-public class CustomerRepository {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    public int save(Customer customer) {
-        return jdbcTemplate.update(
-                "insert into customer (name, age, created_date) values(?,?,?)",
-                customer.getName(), customer.getAge(), LocalDateTime.now());
-    }
-
-    public Customer findByCustomerId(Long id) {
-
-        String sql = "SELECT * FROM CUSTOMER WHERE ID = ?";
-
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new CustomerRowMapper());
-
-    }
-
-    public Customer findByCustomerId2(Long id) {
-
-        String sql = "SELECT * FROM CUSTOMER WHERE ID = ?";
-
-        return (Customer) jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper(Customer.class));
-
-    }
-
-    public Customer findByCustomerId3(Long id) {
-
-        String sql = "SELECT * FROM CUSTOMER WHERE ID = ?";
-
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) ->
-                new Customer(
-                        rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getInt("age"),
-                        rs.getTimestamp("created_date").toLocalDateTime()
-                ));
-
-    }
-
-    public List<Customer> findAll() {
-
-        String sql = "SELECT * FROM CUSTOMER";
-
-        List<Customer> customers = new ArrayList<>();
-
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-
-        for (Map row : rows) {
-            Customer obj = new Customer();
-
-            obj.setID(((Integer) row.get("ID")).longValue());
-            //obj.setID(((Long) row.get("ID"))); no, ClassCastException
-            obj.setName((String) row.get("NAME"));
-            obj.setAge(((BigDecimal) row.get("AGE")).intValue()); // Spring returns BigDecimal, need convert
-            obj.setCreatedDate(((Timestamp) row.get("CREATED_DATE")).toLocalDateTime());
-            customers.add(obj);
-        }
-
-        return customers;
-    }
-
-    public List<Customer> findAll2() {
-
-        String sql = "SELECT * FROM CUSTOMER";
-
-        List<Customer> customers = jdbcTemplate.query(
-                sql,
-                new CustomerRowMapper());
-
-        return customers;
-    }
-
-    public List<Customer> findAll3() {
-
-        String sql = "SELECT * FROM CUSTOMER";
-
-        List<Customer> customers = jdbcTemplate.query(
-                sql,
-                new BeanPropertyRowMapper(Customer.class));
-
-        return customers;
-    }
-
-    public List<Customer> findAll4() {
-
-        String sql = "SELECT * FROM CUSTOMER";
-
-        return jdbcTemplate.query(
-                sql,
-                (rs, rowNum) ->
-                        new Customer(
-                                rs.getLong("id"),
-                                rs.getString("name"),
-                                rs.getInt("age"),
-                                rs.getTimestamp("created_date").toLocalDateTime()
-                        )
-        );
-    }
-
-    public String findCustomerNameById(Long id) {
-
-        String sql = "SELECT NAME FROM CUSTOMER WHERE ID = ?";
-
-        return jdbcTemplate.queryForObject(
-                sql, new Object[]{id}, String.class);
-
-    }
-
-    public int count() {
-
-        String sql = "SELECT COUNT(*) FROM CUSTOMER";
-
-        // queryForInt() is Deprecated
-        // https://www.mkyong.com/spring/jdbctemplate-queryforint-is-deprecated/
-        //int total = jdbcTemplate.queryForInt(sql);
-
-        return jdbcTemplate.queryForObject(sql, Integer.class);
-
-    }
-
-}
-
-----------------------------
-<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>6.1.1</version>
-        </dependency>
--------------------------
-import org.springframework.jdbc.core.RowMapper;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class CustomerRowMapper implements RowMapper<Customer> {
-
-    @Override
-    public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-        Customer customer = new Customer();
-        customer.setID(rs.getLong("ID"));
-        customer.setName(rs.getString("NAME"));
-        customer.setAge(rs.getInt("AGE"));
-        customer.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
-
-        return customer;
-
-    }
-}
-----------------------
-private Long id;
-    private String name;
-    private BigDecimal price;
-
-
-private Long ID;
-    private String name;
-    private Integer age;
-    private LocalDateTime createdDate;
+Project Requirements:
+
+Database Design (5 Marks):
+
+Develop a database schema with a minimum of two tables.
+Establish a one-to-many association between the tables using Java Persistence API (JPA).
+Table Normalization (5 Marks):
+
+Ensure that the tables are normalized.
+Exclude unnecessary columns and ensure all required columns are present.
+Restful Webservice (10 Marks):
+
+Implement a RESTful webservice with a minimum of 10 endpoints:
+getAll(): Retrieve all records.
+getOne(): Retrieve a single record.
+getByXXX(): Retrieve records based on a specific criterion.
+basedOnOneParameter(): Retrieve records based on one parameter.
+basedOnTwoParameters(): Retrieve records based on two parameters.
+someAggregation(): Implement an endpoint with aggregation.
+updateBasedOnTwoParameters(): Update records based on two parameters.
+deleteBasedOnOneParameter(): Delete records based on one parameter.
+insertBunchOfRows(): Insert a collection of rows.
+Login Form (10 Marks):
+
+Develop a login form as part of the project.
+Service Layer (10 Marks):
+
+Include a service layer in the project architecture.
+Thymeleaf Page (10 Marks):
+
+Integrate a Thymeleaf page.
+Use ModelAndView to pass data from at least one table to an HTML page.
+Ensure that the implementation adheres to the specified marks distribution for each component. The project should be well-structured, following best practices in software development.
